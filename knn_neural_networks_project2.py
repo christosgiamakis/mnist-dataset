@@ -3,11 +3,11 @@
 
 
 
-Φορτώνουμε τις βιβλιοθήκες και τα εργαλεία που θα χρειαστούμε.
+Load the libraries that we will use
 """
 
 # Commented out IPython magic to ensure Python compatibility.
-#Βιβλιοθήκες που χρησιμοποιήθηκαν για την ενδιάμεση εργασία.
+#Libraries for mid-project
 import keras
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,7 +15,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neighbors import NearestCentroid
 from sklearn.metrics import accuracy_score
 
-#Πρόσθετες βιβλιοθήκες που χρησιμοποιήθηκαν για την τελική εργασία.
+#Libraries for final project
 from keras.models import Sequential
 from keras.layers import Dense, Activation
 from keras.optimizers import SGD
@@ -23,19 +23,19 @@ from keras.optimizers import SGD
 # %matplotlib inline
 np.random.seed(42)
 
-"""Φορτώνουμε το dataset."""
+"""Load Dataset"""
 
 from keras.datasets import mnist
 (x_train, y_train), (x_test,y_test)=mnist.load_data()
 
-"""Θα ελέγχξουμε τη διάσταση των x_train, x_test, y_train, y_test."""
+"""check dimension ofx_train, x_test, y_train, y_test."""
 
 print(x_train.shape)
 print(x_test.shape)
 print(y_train.shape)
 print(y_test.shape)
 
-"""Οπτικοποίηση δεδομένων εισόδου."""
+"""visualize input data"""
 
 f, ax = plt.subplots(1, 10, figsize=(28,28))
 
@@ -44,24 +44,24 @@ for i in range (0,10):
   ax[i].imshow(sample, cmap='gray')
   ax[i].set_title('Label: {}'.format(i), fontsize=16)
 
-"""Ας δούμε και τη μορφή έχουν τα labels."""
+"""visualize labels"""
 
 for i in range(10):
   print(y_train[i])
 
-"""Κανονικοποιήσεις και μορφοποιήσεις στα train και test sets."""
+"""normalizations in train and test sets"""
 
-#Μετατροπή των x_train, x_test σε διάνυσμα.
+#Convert x_train, x_test to vectors
 x_train = x_train.reshape(-1, 28*28)
 x_test = x_test.reshape(-1, 28*28)
 print(x_train.shape)
 print(x_test.shape)
 
-#Kανονικοποιούμε τα δεδομένα εισόδου.
+#normalize input data
 x_train = x_train / 255.0
 x_test = x_test / 255.
 
-#One hot κωδικοποίηση των labels.
+#One hot encoding to labels
 y_train = keras.utils.to_categorical(y_train, num_classes=10)
 y_test = keras.utils.to_categorical(y_test, num_classes=10)
 for i in range(10):
