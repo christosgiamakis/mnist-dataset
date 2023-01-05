@@ -28,14 +28,14 @@ np.random.seed(42)
 from keras.datasets import mnist
 (x_train, y_train), (x_test,y_test)=mnist.load_data()
 
-"""check dimension ofx_train, x_test, y_train, y_test."""
+"""Check dimension ofx_train, x_test, y_train, y_test."""
 
 print(x_train.shape)
 print(x_test.shape)
 print(y_train.shape)
 print(y_test.shape)
 
-"""visualize input data"""
+"""Visualize input data"""
 
 f, ax = plt.subplots(1, 10, figsize=(28,28))
 
@@ -44,12 +44,12 @@ for i in range (0,10):
   ax[i].imshow(sample, cmap='gray')
   ax[i].set_title('Label: {}'.format(i), fontsize=16)
 
-"""visualize labels"""
+"""Visualize labels"""
 
 for i in range(10):
   print(y_train[i])
 
-"""normalizations in train and test sets"""
+"""Normalizations in train and test sets"""
 
 #Convert x_train, x_test to vectors
 x_train = x_train.reshape(-1, 28*28)
@@ -67,7 +67,7 @@ y_test = keras.utils.to_categorical(y_test, num_classes=10)
 for i in range(10):
   print(y_train[i])
 
-"""Τρέχουμε τον classifier KNN για n=1 και τυπώνουμε accuracy."""
+"""Run KNN classifier for n=1 and print accuracy."""
 
 model = KNeighborsClassifier(n_neighbors=1)
 model.fit(x_train, y_train)
@@ -76,7 +76,7 @@ preds = model.predict(x_test)
 accuracy = accuracy_score(y_test, preds)
 print(accuracy)
 
-"""Τρέχουμε τον classifier KNN για n=3 και τυπώνουμε accuracy."""
+"""Run KNN classifier for n=3 and print accuracy."""
 
 model = KNeighborsClassifier(n_neighbors=3)
 model.fit(x_train, y_train)
@@ -85,7 +85,7 @@ preds = model.predict(x_test)
 accuracy = accuracy_score(y_test, preds)
 print(accuracy)
 
-"""Τρέχουμε τον classifier πλησιέστερου κέντρου και τυπώνουμε accuracy."""
+"""Run NearestCentroid classifier and print accuracy."""
 
 model = NearestCentroid()
 model.fit(x_train, y_train)
@@ -94,7 +94,7 @@ preds = model.predict(x_test)
 accuracy = accuracy_score(y_test, preds)
 print(accuracy)
 
-"""Στήνουμε το Νευρωνικό Δίκτυο."""
+"""Neural Network."""
 
 model = Sequential()
 model.add(Dense(64, input_shape=(784,), activation='sigmoid'))
@@ -104,17 +104,15 @@ sgd = SGD(lr=0.001)
 
 model.compile(loss= 'mean_squared_error', optimizer=sgd, metrics=['accuracy'])
 
-"""Θα εκπαιδεύσουμε το Νευρωνικό Δίκτυο."""
+"""Train Neural Network."""
 
 model.fit(x=x_train, y=y_train, batch_size=64, epochs=50, verbose=2)
 
-"""Εκπαίδευση για άλλες 50 εποχές.
-
-"""
+"""Train for 50 epochs."""
 
 model.fit(x=x_train, y=y_train, batch_size=64, epochs=50, verbose=2)
 
-"""Αξιολόγηση."""
+"""Evaluation."""
 
 print('Train accuracy:', model.evaluate(x_train,y_train, batch_size=64))
 print('Test accuracy:', model.evaluate(x_test,y_test, batch_size=64))
@@ -127,9 +125,7 @@ print(y_pred_classes)
 y_pred = model.predict(x_train)
 print(y_pred[0], np.argmax(y_pred[0]))
 
-"""Αλλαγή MSE σε CrossEntropy.
-
-"""
+"""Change lossfunction from MSE to Crossentropy."""
 
 model = Sequential()
 model.add(Dense(64, input_shape=(784,), activation='sigmoid'))
@@ -139,20 +135,15 @@ sgd = SGD(lr=0.001)
 
 model.compile(loss= 'categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
-"""Εκπαίδευση του Νευρωνικού δικτύου με τη νέα loss function."""
+"""Train with new loss function."""
 
 model.fit(x=x_train, y=y_train, batch_size=64, epochs=50, verbose=2)
 
-"""Εκπαίδευση για άλλες 50 εποχές."""
+"""Train for 50 epochs."""
 
 model.fit(x=x_train, y=y_train, batch_size=64, epochs=50, verbose=2)
 
-"""Αξιολόγηση.
-
-
-
-
-"""
+"""Evaluation."""
 
 print('Train accuracy:', model.evaluate(x_train,y_train, batch_size=64))
 print('Test accuracy:', model.evaluate(x_test,y_test, batch_size=64))
@@ -165,20 +156,20 @@ print(y_pred_classes)
 y_pred = model.predict(x_train)
 print(y_pred[0], np.argmax(y_pred[0]))
 
-"""Εκπαιδεύουμε για άλλες 50 εποχές."""
+"""Train for 50 epochs."""
 
 model.fit(x=x_train, y=y_train, batch_size=64, epochs=50, verbose=2)
 
-"""Εκπαίδευση για άλλες50 εποχές με μείωση του batch size σε 32."""
+"""Train for 50 epochs and reduce batch size to 32"""
 
 model.fit(x=x_train, y=y_train, batch_size=32, epochs=50, verbose=2)
 
-"""Αξιολόγηση."""
+"""Evaluation."""
 
 y_pred = model.predict(x_train)
 print(y_pred[0], np.argmax(y_pred[0]))
 
-"""Τροποποίηση Νευρωνικού με 32 νευρώνες στο κρυφό επίπεδο."""
+"""Change NN by putting 32 neurons in hidden layer."""
 
 model = Sequential()
 model.add(Dense(32, input_shape=(784,), activation='sigmoid'))
@@ -188,17 +179,15 @@ sgd = SGD(lr=0.001)
 
 model.compile(loss= 'categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
-"""Εκπαίδευση Νευρωνικού με 32 νευρώνες στο κρυφό επίπεδο."""
+"""Train model."""
 
 model.fit(x=x_train, y=y_train, batch_size=32, epochs=50, verbose=2)
 
-"""Εκπαίδευση για άλλες 50 εποχές.
-
-"""
+"""50 epochs more."""
 
 model.fit(x=x_train, y=y_train, batch_size=32, epochs=50, verbose=2)
 
-"""Αξιολόγηση."""
+"""Evaluation."""
 
 print('Train accuracy:', model.evaluate(x_train,y_train, batch_size=64))
 print('Test accuracy:', model.evaluate(x_test,y_test, batch_size=64))
@@ -211,7 +200,7 @@ print(y_pred_classes)
 y_pred = model.predict(x_train)
 print(y_pred[0], np.argmax(y_pred[0]))
 
-"""Τροποποίηση του Νευρωνικού με αλλαγή του SGD σε adam optimizer."""
+"""Adam optimizer."""
 
 model = Sequential()
 model.add(Dense(64, input_shape=(784,), activation='sigmoid'))
@@ -220,11 +209,11 @@ model.add(Dense(units=10, activation='softmax'))
 
 model.compile(loss= 'categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-"""Εκπαίδευση Νευρωνικού."""
+"""Train."""
 
 model.fit(x=x_train, y=y_train, batch_size=32, epochs=50, verbose=2)
 
-"""Αξιολόγηση."""
+"""Evaluation."""
 
 print('Train accuracy:', model.evaluate(x_train,y_train, batch_size=64))
 print('Test accuracy:', model.evaluate(x_test,y_test, batch_size=64))
@@ -237,7 +226,7 @@ print(y_pred_classes)
 y_pred = model.predict(x_train)
 print(y_pred[0], np.argmax(y_pred[0]))
 
-"""Προσθήκη ενός ακόμα κρυφού στρωματος 64 νευρώνων."""
+"""Add another hidden layer with 64 neurons."""
 
 model = Sequential()
 model.add(Dense(64, input_shape=(784,), activation='sigmoid'))
@@ -247,11 +236,11 @@ model.add(Dense(units=10, activation='softmax'))
 
 model.compile(loss= 'categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-"""Εκπαίδευση του Νευρωνικού."""
+"""Train."""
 
 model.fit(x=x_train, y=y_train, batch_size=64, epochs=50, verbose=2)
 
-"""Αξιολόγηση."""
+"""Evaluation."""
 
 print('Train accuracy:', model.evaluate(x_train,y_train, batch_size=64))
 print('Test accuracy:', model.evaluate(x_test,y_test, batch_size=64))
